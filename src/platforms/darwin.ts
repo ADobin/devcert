@@ -4,15 +4,15 @@ import createDebug from 'debug';
 import { sync as commandExists } from 'command-exists';
 import { run } from '../utils';
 import { Options } from '../index';
-import { addCertificateToNSSCertDB, openCertificateInFirefox, closeFirefox } from './shared';
+import { addCertificateToNSSCertDB, closeFirefox } from './shared';
 import { Platform } from '.';
+import UI from '../user-interface';
 
 const debug = createDebug('devcert:platforms:macos');
 
 export default class MacOSPlatform implements Platform {
 
   private FIREFOX_BUNDLE_PATH = '/Applications/Firefox.app';
-  private FIREFOX_BIN_PATH = path.join(this.FIREFOX_BUNDLE_PATH, 'Contents/MacOS/firefox');
   private FIREFOX_NSS_DIR = path.join(process.env.HOME, 'Library/Application Support/Firefox/Profiles/*');
 
   /**
@@ -38,11 +38,11 @@ export default class MacOSPlatform implements Platform {
             run('brew install nss');
           } else {
             debug(`Homebrew isn't installed, so we can't try to install certutil. Falling back to manual certificate install`);
-            return await openCertificateInFirefox(this.FIREFOX_BIN_PATH, certificatePath);
+            return UI.warnFirefoxUnableToConfigure();
           }
         } else {
           debug(`certutil is not already installed, and skipCertutilInstall is true, so we have to fall back to a manual install`)
-          return await openCertificateInFirefox(this.FIREFOX_BIN_PATH, certificatePath);
+          return UI.warnFirefoxUnableToConfigure();
         }
       }
       let certutilPath = path.join(run('brew --prefix nss').toString().trim(), 'bin', 'certutil');

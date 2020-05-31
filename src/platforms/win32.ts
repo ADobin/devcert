@@ -2,7 +2,6 @@ import createDebug from 'debug';
 import crypto from 'crypto';
 import { writeFileSync as write, readFileSync as read } from 'fs';
 import { Options } from '../index';
-import { openCertificateInFirefox } from './shared';
 import { Platform } from '.';
 import { run, sudo } from '../utils';
 import UI from '../user-interface';
@@ -35,11 +34,8 @@ export default class WindowsPlatform implements Platform {
     }
     debug('adding devcert root to Firefox trust store')
     // Firefox (don't even try NSS certutil, no easy install for Windows)
-    try {
-      await openCertificateInFirefox('start firefox', certificatePath);
-    } catch {
-      debug('Error opening Firefox, most likely Firefox is not installed');
-    }
+    
+    UI.warnFirefoxUnableToConfigure();
   }
 
   async addDomainToHostFileIfMissing(domain: string) {

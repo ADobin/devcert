@@ -2,21 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const password_prompt_1 = tslib_1.__importDefault(require("password-prompt"));
-const utils_1 = require("./utils");
 const DefaultUI = {
     getWindowsEncryptionPassword() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return yield password_prompt_1.default('devcert password (http://bit.ly/devcert-what-password?):');
+            return yield password_prompt_1.default('devcert password (http://bit.ly/devcert-what-password?): ');
         });
     },
     warnChromeOnLinuxWithoutCertutil() {
         return tslib_1.__awaiter(this, void 0, void 0, function* () {
             console.warn(`
-      WARNING: It looks like you have Chrome installed, but you specified
-      'skipCertutilInstall: true'. Unfortunately, without installing
-      certutil, it's impossible get Chrome to trust devcert's certificates
-      The certificates will work, but Chrome will continue to warn you that
-      they are untrusted.
+WARNING: It looks like you have Chrome installed, but you specified
+'skipCertutilInstall: true'. Unfortunately, without installing
+certutil, it's impossible get Chrome to trust devcert's certificates
+The certificates will work, but Chrome will continue to warn you that
+they are untrusted.
     `);
         });
     },
@@ -25,52 +24,10 @@ const DefaultUI = {
             console.log('Please close Firefox before continuing');
         });
     },
-    startFirefoxWizard(certificateHost) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            console.log(`
-      devcert was unable to automatically configure Firefox. You'll need to
-      complete this process manually. Don't worry though - Firefox will walk
-      you through it.
-
-      When you're ready, hit any key to continue. Firefox will launch and
-      display a wizard to walk you through how to trust the devcert
-      certificate. When you are finished, come back here and we'll finish up.
-
-      (If Firefox doesn't start, go ahead and start it and navigate to
-      ${certificateHost} in a new tab.)
-
-      If you are curious about why all this is necessary, check out
-      https://github.com/davewasmer/devcert#how-it-works
-
-      <Press any key to launch Firefox wizard>
-    `);
-            yield utils_1.waitForUser();
-        });
-    },
-    firefoxWizardPromptPage(certificateURL) {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            return `
-      <html>
-        <head>
-          <meta http-equiv="refresh" content="0; url=${certificateURL}" />
-        </head>
-      </html>
-    `;
-        });
-    },
-    waitForFirefoxWizard() {
-        return tslib_1.__awaiter(this, void 0, void 0, function* () {
-            console.log(`
-      Launching Firefox ...
-
-      Great! Once you've finished the Firefox wizard for adding the devcert
-      certificate, just hit any key here again and we'll wrap up.
-
-      <Press any key to continue>
-    `);
-            yield utils_1.waitForUser();
-        });
+    warnFirefoxUnableToConfigure() {
+        console.warn(`WARNING: If Firefox is installed installed, devcert
+was unable to get Firefox to trust the generated certificate.`);
     }
 };
 exports.default = DefaultUI;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlci1pbnRlcmZhY2UuanMiLCJzb3VyY2VSb290IjoiRjovYWRvYmluLWRldmNlcnQvIiwic291cmNlcyI6WyJ1c2VyLWludGVyZmFjZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw4RUFBNkM7QUFDN0MsbUNBQXNDO0FBV3RDLE1BQU0sU0FBUyxHQUFrQjtJQUN6Qiw0QkFBNEI7O1lBQ2hDLE9BQU8sTUFBTSx5QkFBYyxDQUFDLDBEQUEwRCxDQUFDLENBQUM7UUFDMUYsQ0FBQztLQUFBO0lBQ0ssZ0NBQWdDOztZQUNwQyxPQUFPLENBQUMsSUFBSSxDQUFDOzs7Ozs7S0FNWixDQUFDLENBQUM7UUFDTCxDQUFDO0tBQUE7SUFDSyw0QkFBNEI7O1lBQ2hDLE9BQU8sQ0FBQyxHQUFHLENBQUMsd0NBQXdDLENBQUMsQ0FBQztRQUN4RCxDQUFDO0tBQUE7SUFDSyxrQkFBa0IsQ0FBQyxlQUFlOztZQUN0QyxPQUFPLENBQUMsR0FBRyxDQUFDOzs7Ozs7Ozs7O1FBVVAsZUFBZ0I7Ozs7OztLQU1wQixDQUFDLENBQUM7WUFDSCxNQUFNLG1CQUFXLEVBQUUsQ0FBQztRQUN0QixDQUFDO0tBQUE7SUFDSyx1QkFBdUIsQ0FBQyxjQUFzQjs7WUFDbEQsT0FBTzs7O3VEQUc0QyxjQUFjOzs7S0FHaEUsQ0FBQztRQUNKLENBQUM7S0FBQTtJQUNLLG9CQUFvQjs7WUFDeEIsT0FBTyxDQUFDLEdBQUcsQ0FBQzs7Ozs7OztLQU9YLENBQUMsQ0FBQTtZQUNGLE1BQU0sbUJBQVcsRUFBRSxDQUFDO1FBQ3RCLENBQUM7S0FBQTtDQUNGLENBQUE7QUFFRCxrQkFBZSxTQUFTLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGFzc3dvcmRQcm9tcHQgZnJvbSAncGFzc3dvcmQtcHJvbXB0JztcclxuaW1wb3J0IHsgd2FpdEZvclVzZXIgfSBmcm9tICcuL3V0aWxzJztcclxuXHJcbmV4cG9ydCBpbnRlcmZhY2UgVXNlckludGVyZmFjZSB7XHJcbiAgZ2V0V2luZG93c0VuY3J5cHRpb25QYXNzd29yZCgpOiBQcm9taXNlPHN0cmluZz47XHJcbiAgd2FybkNocm9tZU9uTGludXhXaXRob3V0Q2VydHV0aWwoKTogUHJvbWlzZTx2b2lkPjtcclxuICBjbG9zZUZpcmVmb3hCZWZvcmVDb250aW51aW5nKCk6IFByb21pc2U8dm9pZD47XHJcbiAgc3RhcnRGaXJlZm94V2l6YXJkKGNlcnRpZmljYXRlSG9zdDogc3RyaW5nKTogUHJvbWlzZTx2b2lkPjtcclxuICBmaXJlZm94V2l6YXJkUHJvbXB0UGFnZShjZXJ0aWZpY2F0ZVVSTDogc3RyaW5nKTogUHJvbWlzZTxzdHJpbmc+O1xyXG4gIHdhaXRGb3JGaXJlZm94V2l6YXJkKCk6IFByb21pc2U8dm9pZD47XHJcbn1cclxuXHJcbmNvbnN0IERlZmF1bHRVSTogVXNlckludGVyZmFjZSA9IHtcclxuICBhc3luYyBnZXRXaW5kb3dzRW5jcnlwdGlvblBhc3N3b3JkKCkge1xyXG4gICAgcmV0dXJuIGF3YWl0IHBhc3N3b3JkUHJvbXB0KCdkZXZjZXJ0IHBhc3N3b3JkIChodHRwOi8vYml0Lmx5L2RldmNlcnQtd2hhdC1wYXNzd29yZD8pOicpO1xyXG4gIH0sXHJcbiAgYXN5bmMgd2FybkNocm9tZU9uTGludXhXaXRob3V0Q2VydHV0aWwoKSB7XHJcbiAgICBjb25zb2xlLndhcm4oYFxyXG4gICAgICBXQVJOSU5HOiBJdCBsb29rcyBsaWtlIHlvdSBoYXZlIENocm9tZSBpbnN0YWxsZWQsIGJ1dCB5b3Ugc3BlY2lmaWVkXHJcbiAgICAgICdza2lwQ2VydHV0aWxJbnN0YWxsOiB0cnVlJy4gVW5mb3J0dW5hdGVseSwgd2l0aG91dCBpbnN0YWxsaW5nXHJcbiAgICAgIGNlcnR1dGlsLCBpdCdzIGltcG9zc2libGUgZ2V0IENocm9tZSB0byB0cnVzdCBkZXZjZXJ0J3MgY2VydGlmaWNhdGVzXHJcbiAgICAgIFRoZSBjZXJ0aWZpY2F0ZXMgd2lsbCB3b3JrLCBidXQgQ2hyb21lIHdpbGwgY29udGludWUgdG8gd2FybiB5b3UgdGhhdFxyXG4gICAgICB0aGV5IGFyZSB1bnRydXN0ZWQuXHJcbiAgICBgKTtcclxuICB9LFxyXG4gIGFzeW5jIGNsb3NlRmlyZWZveEJlZm9yZUNvbnRpbnVpbmcoKSB7XHJcbiAgICBjb25zb2xlLmxvZygnUGxlYXNlIGNsb3NlIEZpcmVmb3ggYmVmb3JlIGNvbnRpbnVpbmcnKTtcclxuICB9LFxyXG4gIGFzeW5jIHN0YXJ0RmlyZWZveFdpemFyZChjZXJ0aWZpY2F0ZUhvc3QpIHtcclxuICAgIGNvbnNvbGUubG9nKGBcclxuICAgICAgZGV2Y2VydCB3YXMgdW5hYmxlIHRvIGF1dG9tYXRpY2FsbHkgY29uZmlndXJlIEZpcmVmb3guIFlvdSdsbCBuZWVkIHRvXHJcbiAgICAgIGNvbXBsZXRlIHRoaXMgcHJvY2VzcyBtYW51YWxseS4gRG9uJ3Qgd29ycnkgdGhvdWdoIC0gRmlyZWZveCB3aWxsIHdhbGtcclxuICAgICAgeW91IHRocm91Z2ggaXQuXHJcblxyXG4gICAgICBXaGVuIHlvdSdyZSByZWFkeSwgaGl0IGFueSBrZXkgdG8gY29udGludWUuIEZpcmVmb3ggd2lsbCBsYXVuY2ggYW5kXHJcbiAgICAgIGRpc3BsYXkgYSB3aXphcmQgdG8gd2FsayB5b3UgdGhyb3VnaCBob3cgdG8gdHJ1c3QgdGhlIGRldmNlcnRcclxuICAgICAgY2VydGlmaWNhdGUuIFdoZW4geW91IGFyZSBmaW5pc2hlZCwgY29tZSBiYWNrIGhlcmUgYW5kIHdlJ2xsIGZpbmlzaCB1cC5cclxuXHJcbiAgICAgIChJZiBGaXJlZm94IGRvZXNuJ3Qgc3RhcnQsIGdvIGFoZWFkIGFuZCBzdGFydCBpdCBhbmQgbmF2aWdhdGUgdG9cclxuICAgICAgJHsgY2VydGlmaWNhdGVIb3N0IH0gaW4gYSBuZXcgdGFiLilcclxuXHJcbiAgICAgIElmIHlvdSBhcmUgY3VyaW91cyBhYm91dCB3aHkgYWxsIHRoaXMgaXMgbmVjZXNzYXJ5LCBjaGVjayBvdXRcclxuICAgICAgaHR0cHM6Ly9naXRodWIuY29tL2RhdmV3YXNtZXIvZGV2Y2VydCNob3ctaXQtd29ya3NcclxuXHJcbiAgICAgIDxQcmVzcyBhbnkga2V5IHRvIGxhdW5jaCBGaXJlZm94IHdpemFyZD5cclxuICAgIGApO1xyXG4gICAgYXdhaXQgd2FpdEZvclVzZXIoKTtcclxuICB9LFxyXG4gIGFzeW5jIGZpcmVmb3hXaXphcmRQcm9tcHRQYWdlKGNlcnRpZmljYXRlVVJMOiBzdHJpbmcpIHtcclxuICAgIHJldHVybiBgXHJcbiAgICAgIDxodG1sPlxyXG4gICAgICAgIDxoZWFkPlxyXG4gICAgICAgICAgPG1ldGEgaHR0cC1lcXVpdj1cInJlZnJlc2hcIiBjb250ZW50PVwiMDsgdXJsPSR7Y2VydGlmaWNhdGVVUkx9XCIgLz5cclxuICAgICAgICA8L2hlYWQ+XHJcbiAgICAgIDwvaHRtbD5cclxuICAgIGA7XHJcbiAgfSxcclxuICBhc3luYyB3YWl0Rm9yRmlyZWZveFdpemFyZCgpIHtcclxuICAgIGNvbnNvbGUubG9nKGBcclxuICAgICAgTGF1bmNoaW5nIEZpcmVmb3ggLi4uXHJcblxyXG4gICAgICBHcmVhdCEgT25jZSB5b3UndmUgZmluaXNoZWQgdGhlIEZpcmVmb3ggd2l6YXJkIGZvciBhZGRpbmcgdGhlIGRldmNlcnRcclxuICAgICAgY2VydGlmaWNhdGUsIGp1c3QgaGl0IGFueSBrZXkgaGVyZSBhZ2FpbiBhbmQgd2UnbGwgd3JhcCB1cC5cclxuXHJcbiAgICAgIDxQcmVzcyBhbnkga2V5IHRvIGNvbnRpbnVlPlxyXG4gICAgYClcclxuICAgIGF3YWl0IHdhaXRGb3JVc2VyKCk7XHJcbiAgfVxyXG59XHJcblxyXG5leHBvcnQgZGVmYXVsdCBEZWZhdWx0VUk7Il19
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoidXNlci1pbnRlcmZhY2UuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2RsYW5ub3llL3Byb2plY3RzL2RldmNlcnQvIiwic291cmNlcyI6WyJ1c2VyLWludGVyZmFjZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSw4RUFBNkM7QUFTN0MsTUFBTSxTQUFTLEdBQWtCO0lBQ3pCLDRCQUE0Qjs7WUFDaEMsT0FBTyxNQUFNLHlCQUFjLENBQUMsMkRBQTJELENBQUMsQ0FBQztRQUMzRixDQUFDO0tBQUE7SUFDSyxnQ0FBZ0M7O1lBQ3BDLE9BQU8sQ0FBQyxJQUFJLENBQUM7Ozs7OztLQU1aLENBQUMsQ0FBQztRQUNMLENBQUM7S0FBQTtJQUNLLDRCQUE0Qjs7WUFDaEMsT0FBTyxDQUFDLEdBQUcsQ0FBQyx3Q0FBd0MsQ0FBQyxDQUFDO1FBQ3hELENBQUM7S0FBQTtJQUNELDRCQUE0QjtRQUMxQixPQUFPLENBQUMsSUFBSSxDQUFDOzhEQUM2QyxDQUFDLENBQUM7SUFDOUQsQ0FBQztDQUNGLENBQUE7QUFFRCxrQkFBZSxTQUFTLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgcGFzc3dvcmRQcm9tcHQgZnJvbSAncGFzc3dvcmQtcHJvbXB0JztcblxuZXhwb3J0IGludGVyZmFjZSBVc2VySW50ZXJmYWNlIHtcbiAgZ2V0V2luZG93c0VuY3J5cHRpb25QYXNzd29yZCgpOiBQcm9taXNlPHN0cmluZz47XG4gIHdhcm5DaHJvbWVPbkxpbnV4V2l0aG91dENlcnR1dGlsKCk6IFByb21pc2U8dm9pZD47XG4gIGNsb3NlRmlyZWZveEJlZm9yZUNvbnRpbnVpbmcoKTogUHJvbWlzZTx2b2lkPjtcbiAgd2FybkZpcmVmb3hVbmFibGVUb0NvbmZpZ3VyZSgpOiB2b2lkO1xuICB9XG5cbmNvbnN0IERlZmF1bHRVSTogVXNlckludGVyZmFjZSA9IHtcbiAgYXN5bmMgZ2V0V2luZG93c0VuY3J5cHRpb25QYXNzd29yZCgpIHtcbiAgICByZXR1cm4gYXdhaXQgcGFzc3dvcmRQcm9tcHQoJ2RldmNlcnQgcGFzc3dvcmQgKGh0dHA6Ly9iaXQubHkvZGV2Y2VydC13aGF0LXBhc3N3b3JkPyk6ICcpO1xuICB9LFxuICBhc3luYyB3YXJuQ2hyb21lT25MaW51eFdpdGhvdXRDZXJ0dXRpbCgpIHtcbiAgICBjb25zb2xlLndhcm4oYFxuV0FSTklORzogSXQgbG9va3MgbGlrZSB5b3UgaGF2ZSBDaHJvbWUgaW5zdGFsbGVkLCBidXQgeW91IHNwZWNpZmllZFxuJ3NraXBDZXJ0dXRpbEluc3RhbGw6IHRydWUnLiBVbmZvcnR1bmF0ZWx5LCB3aXRob3V0IGluc3RhbGxpbmdcbmNlcnR1dGlsLCBpdCdzIGltcG9zc2libGUgZ2V0IENocm9tZSB0byB0cnVzdCBkZXZjZXJ0J3MgY2VydGlmaWNhdGVzXG5UaGUgY2VydGlmaWNhdGVzIHdpbGwgd29yaywgYnV0IENocm9tZSB3aWxsIGNvbnRpbnVlIHRvIHdhcm4geW91IHRoYXRcbnRoZXkgYXJlIHVudHJ1c3RlZC5cbiAgICBgKTtcbiAgfSxcbiAgYXN5bmMgY2xvc2VGaXJlZm94QmVmb3JlQ29udGludWluZygpIHtcbiAgICBjb25zb2xlLmxvZygnUGxlYXNlIGNsb3NlIEZpcmVmb3ggYmVmb3JlIGNvbnRpbnVpbmcnKTtcbiAgfSxcbiAgd2FybkZpcmVmb3hVbmFibGVUb0NvbmZpZ3VyZSgpIHtcbiAgICBjb25zb2xlLndhcm4oYFdBUk5JTkc6IElmIEZpcmVmb3ggaXMgaW5zdGFsbGVkIGluc3RhbGxlZCwgZGV2Y2VydFxud2FzIHVuYWJsZSB0byBnZXQgRmlyZWZveCB0byB0cnVzdCB0aGUgZ2VuZXJhdGVkIGNlcnRpZmljYXRlLmApO1xuICB9XG59XG5cbmV4cG9ydCBkZWZhdWx0IERlZmF1bHRVSTsiXX0=

@@ -2,7 +2,6 @@ import { Options } from '../index';
 import { Platform } from '.';
 export default class MacOSPlatform implements Platform {
     private FIREFOX_BUNDLE_PATH;
-    private FIREFOX_BIN_PATH;
     private FIREFOX_NSS_DIR;
     /**
      * macOS is pretty simple - just add the certificate to the system keychain,

@@ -2,7 +2,7 @@ import path from 'path';
 import { existsSync as exists, writeFileSync as writeFile } from 'fs';
 import createDebug from 'debug';
 import { sync as commandExists } from 'command-exists';
-import { addCertificateToNSSCertDB, openCertificateInFirefox, closeFirefox } from './shared';
+import { addCertificateToNSSCertDB, closeFirefox } from './shared';
 import { run } from '../utils';
 import { Options } from '../index';
 import UI from '../user-interface';
@@ -40,7 +40,7 @@ export default class LinuxPlatform implements Platform {
       if (!commandExists('certutil')) {
         if (options.skipCertutilInstall) {
           debug('NSS tooling is not already installed, and `skipCertutil` is true, so falling back to manual certificate install for Firefox');
-          openCertificateInFirefox(this.FIREFOX_BIN_PATH, certificatePath);
+          UI.warnFirefoxUnableToConfigure();
         } else {
           debug('NSS tooling is not already installed. Trying to install NSS tooling now with `apt install`');
           run('sudo apt install libnss3-tools');

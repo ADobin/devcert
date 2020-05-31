@@ -1,11 +1,8 @@
 import path from 'path';
-import url from 'url';
 import createDebug from 'debug';
 import assert from 'assert';
-import getPort from 'get-port';
-import http from 'http';
 import { sync as glob } from 'glob';
-import { readFileSync as readFile, existsSync as exists } from 'fs';
+import { existsSync as exists } from 'fs';
 import { run } from '../utils';
 import { isMac, isLinux } from '../constants';
 import UI from '../user-interface';
@@ -63,44 +60,4 @@ function isFirefoxOpen() {
 
 async function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-/**
- * Firefox manages it's own trust store for SSL certificates, which can be
- * managed via the certutil command (supplied by NSS tooling packages). In the
- * event that certutil is not already installed, and either can't be installed
- * (Windows) or the user doesn't want to install it (skipCertutilInstall:
- * true), it means that we can't programmatically tell Firefox to trust our
- * root CA certificate.
- *
- * There is a recourse though. When a Firefox tab is directed to a URL that
- * responds with a certificate, it will automatically prompt the user if they
- * want to add it to their trusted certificates. So if we can't automatically
- * install the certificate via certutil, we instead start a quick web server
- * and host our certificate file. Then we open the hosted cert URL in Firefox
- * to kick off the GUI flow.
- *
- * This method does all this, along with providing user prompts in the terminal
- * to walk them through this process.
- */
-export async function openCertificateInFirefox(firefoxPath: string, certPath: string): Promise<void> {
-  debug('Adding devert to Firefox trust stores manually. Launching a webserver to host our certificate temporarily ...');
-  let port = await getPort();
-  let server = http.createServer(async (req, res) => {
-    let { pathname } = url.parse(req.url);
-    if (pathname === '/certificate') {
-      res.writeHead(200, { 'Content-type': 'application/x-x509-ca-cert' });
-      res.write(readFile(certPath));
-      res.end();
-    } else {
-      res.writeHead(200);
-      res.write(await UI.firefoxWizardPromptPage(`http://localhost:${ port }/certificate`));
-      res.end();
-    }
-  }).listen(port);
-  debug('Certificate server is up. Printing instructions for user and launching Firefox with hosted certificate URL');
-  await UI.startFirefoxWizard(`http://localhost:${ port }`);
-  run(`${ firefoxPath } http://localhost:${ port }`);
-  await UI.waitForFirefoxWizard();
-  server.close();
 }
